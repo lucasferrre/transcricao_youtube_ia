@@ -19,15 +19,15 @@ def load_css():
     st.markdown(f"""
     <style>
         .main {{
-            background-color: #0E1117;
-            color: #FAFAFA;
+            background-color: #121212;
+            color: #8191AA;
         }}
         .stTextInput>div>div>input {{
             background-color: #1E1E1E;
             color: white;
         }}
         .stButton>button {{
-            background: linear-gradient(90deg, #FF4B4B 0%, #FF8E53 100%);
+            background: linear-gradient(90deg, #43e97b 0%, #38f9d7 100%);
             border: none;
             color: white;
             font-weight: bold;
@@ -117,8 +117,16 @@ def main():
                                 st.write(transcript)
                             
                             with tab2:
-                                st.markdown("#### Análise do Conteúdo")
-                                st.write("Em desenvolvimento...")
+                                st.markdown("#### 🧠 Tema Principal do Vídeo")
+                                if st.button("🔍 Analisar Tema"):
+                                    with st.spinner("Analisando o conteúdo..."):
+                                        gemini_utils.configure_gemini()
+                                        prompt = f"Com base na transcrição abaixo, identifique o tema principal do vídeo em uma frase clara:\n\n{transcript}"
+                                        theme = gemini_utils.generate_summary(prompt)
+                                        if theme:
+                                            st.success(f"🎯 Tema: {theme}")
+                                        else:
+                                            st.error("Não foi possível identificar o tema.")
                             
                             with tab3:
                                 if st.button("✨ Gerar Resumo Premium"):
